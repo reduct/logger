@@ -100,21 +100,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
              * Logs a message to the console API if possible.
              *
              * @param message {String} The message to log.
-             * @param targetElement {HTMLElement} An optional target element which will be appended to the log.
+             * @param appendix {*} An optional appendix for the log.
              * @returns {Logger}
              *
              */
         }, {
             key: "log",
             value: function log(message) {
-                var targetElement = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+                var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
                 if (this.logLevel <= 2) {
                     return this;
                 }
 
                 try {
-                    console.log('@reduct/component: ' + message, targetElement);
+                    console.log('@reduct/logger: ' + message, appendix);
                 } catch (e) {}
 
                 return this;
@@ -124,21 +124,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
              * Logs a info to the console API if possible.
              *
              * @param message {String} The message to log.
-             * @param targetElement {HTMLElement} An optional target element which will be appended to the info.
+             * @param appendix {*} An optional appendix for the info log.
              * @returns {Logger}
              *
              */
         }, {
             key: "info",
             value: function info(message) {
-                var targetElement = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+                var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
                 if (this.logLevel <= 2) {
                     return this;
                 }
 
                 try {
-                    console.info('@reduct/component Info: ' + message, targetElement);
+                    console.info('@reduct/logger Info: ' + message, appendix);
                 } catch (e) {}
 
                 return this;
@@ -148,21 +148,21 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
              * Logs a warning to the console API if possible.
              *
              * @param message {String} The message to log.
-             * @param targetElement {HTMLElement} An optional target element which will be appended to the warning.
+             * @param appendix {*} An optional appendix for the warning.
              * @returns {Logger}
              *
              */
         }, {
             key: "warn",
             value: function warn(message) {
-                var targetElement = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+                var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
                 if (this.logLevel <= 1) {
                     return this;
                 }
 
                 try {
-                    console.warn('@reduct/component Warning: ' + message, targetElement);
+                    console.warn('@reduct/logger Warning: ' + message, appendix);
                 } catch (e) {}
             }
 
@@ -170,25 +170,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
              * Logs a error to the console API if possible.
              *
              * @param message {String} The message to log.
-             * @param targetElement {HTMLElement} An optional target element which will be appended to the error.
+             * @param appendix {*} An optional appendix for the error log.
              * @returns {Logger}
              *
              */
         }, {
             key: "error",
             value: function error(message) {
-                var targetElement = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
+                var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
                 if (this.logLevel <= 0) {
                     return this;
                 }
 
                 try {
-                    // We still need the console.error call since the Error object can't print out references to HTML Elements.
-                    console.error(message, targetElement);
+                    // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
+                    console.error(message, appendix);
                 } catch (e) {}
 
-                throw new Error('@reduct/component Error: Details are posted above.');
+                throw new Error('@reduct/logger Error: Details are posted above.');
             }
         }]);
 

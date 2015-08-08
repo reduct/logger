@@ -37,17 +37,17 @@ function factory (global, factoryOpts) {
          * Logs a message to the console API if possible.
          *
          * @param message {String} The message to log.
-         * @param targetElement {HTMLElement} An optional target element which will be appended to the log.
+         * @param appendix {*} An optional appendix for the log.
          * @returns {Logger}
          *
          */
-        log(message, targetElement = '') {
+        log(message, appendix = '') {
             if (this.logLevel <= 2) {
                 return this;
             }
 
             try {
-                console.log('@reduct/component: ' + message, targetElement);
+                console.log('@reduct/logger: ' + message, appendix);
             } catch (e) {}
 
             return this;
@@ -57,17 +57,17 @@ function factory (global, factoryOpts) {
          * Logs a info to the console API if possible.
          *
          * @param message {String} The message to log.
-         * @param targetElement {HTMLElement} An optional target element which will be appended to the info.
+         * @param appendix {*} An optional appendix for the info log.
          * @returns {Logger}
          *
          */
-        info(message, targetElement = '') {
+        info(message, appendix = '') {
             if (this.logLevel <= 2) {
                 return this;
             }
 
             try {
-                console.info('@reduct/component Info: ' + message, targetElement);
+                console.info('@reduct/logger Info: ' + message, appendix);
             } catch (e) {}
 
             return this;
@@ -77,17 +77,17 @@ function factory (global, factoryOpts) {
          * Logs a warning to the console API if possible.
          *
          * @param message {String} The message to log.
-         * @param targetElement {HTMLElement} An optional target element which will be appended to the warning.
+         * @param appendix {*} An optional appendix for the warning.
          * @returns {Logger}
          *
          */
-        warn(message, targetElement = '') {
+        warn(message, appendix = '') {
             if (this.logLevel <= 1) {
                 return this;
             }
 
             try {
-                console.warn('@reduct/component Warning: ' + message, targetElement);
+                console.warn('@reduct/logger Warning: ' + message, appendix);
             } catch (e) {}
         }
 
@@ -95,21 +95,21 @@ function factory (global, factoryOpts) {
          * Logs a error to the console API if possible.
          *
          * @param message {String} The message to log.
-         * @param targetElement {HTMLElement} An optional target element which will be appended to the error.
+         * @param appendix {*} An optional appendix for the error log.
          * @returns {Logger}
          *
          */
-        error(message, targetElement = '') {
+        error(message, appendix = '') {
             if (this.logLevel <= 0) {
                 return this;
             }
 
             try {
-                // We still need the console.error call since the Error object can't print out references to HTML Elements.
-                console.error(message, targetElement);
+                // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
+                console.error(message, appendix);
             } catch (e) {}
 
-            throw new Error('@reduct/component Error: Details are posted above.');
+            throw new Error('@reduct/logger Error: Details are posted above.');
         }
     }
 

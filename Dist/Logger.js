@@ -110,7 +110,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function log(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 2) {
+                if (this.logLevel < 2) {
                     return this;
                 }
 

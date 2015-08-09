@@ -43,7 +43,7 @@ function factory (global, factoryOpts) {
          *
          */
         log(message, appendix = '') {
-            if (this.logLevel <= 2) {
+            if (this.logLevel < 2) {
                 return this;
             }
 

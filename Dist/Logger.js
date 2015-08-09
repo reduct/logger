@@ -196,7 +196,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return Logger;
     })();
 
-    if (!global.reduct.logger instanceof Logger) {
+    if (!(global.reduct.logger instanceof Logger)) {
         var logger = new Logger();
 
         //

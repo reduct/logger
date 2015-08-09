@@ -118,7 +118,7 @@ function factory (global, factoryOpts) {
     // Check for the existence of an logger instance in the global namespace,
     // and if none was found create a singleton.
     //
-    if (!global.reduct.logger instanceof Logger) {
+    if (!(global.reduct.logger instanceof Logger)) {
         let logger = new Logger();
 
         //

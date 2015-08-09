@@ -69,6 +69,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         function Logger() {
             _classCallCheck(this, Logger);
 
+            this.version = factoryOpts.packageVersion;
             this.logLevel = 2;
         }
 

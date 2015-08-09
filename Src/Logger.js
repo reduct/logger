@@ -14,6 +14,7 @@ function factory (global, factoryOpts) {
 
     class Logger {
         constructor() {
+            this.version = factoryOpts.packageVersion;
             this.logLevel = 2;
         }
 

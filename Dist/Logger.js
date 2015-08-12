@@ -65,12 +65,18 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return !isNaN(num);
     }
 
+    var logLevels = {
+        ALL: 2,
+        WARNINGS: 1,
+        SILENT: 0
+    };
+
     var Logger = (function () {
         function Logger() {
             _classCallCheck(this, Logger);
 
             this.version = factoryOpts.packageVersion;
-            this.logLevel = 2;
+            this.logLevel = logLevels.ALL;
         }
 
         //
@@ -110,7 +116,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function log(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel < 2) {
+                if (this.logLevel < logLevels.ALL) {
                     return this;
                 }
 
@@ -134,7 +140,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function info(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel < 2) {
+                if (this.logLevel < logLevels.ALL) {
                     return this;
                 }
 
@@ -158,7 +164,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function warn(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel < 1) {
+                if (this.logLevel < logLevels.WARNINGS) {
                     return this;
                 }
 
@@ -180,7 +186,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function error(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel < 0) {
+                if (this.logLevel < logLevels.SILENT) {
                     return this;
                 }
 
@@ -211,5 +217,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         global.reduct.logger = logger;
     }
 
-    return global.reduct.logger;
+    return {
+        logger: global.reduct.logger,
+        logLevels: logLevels
+    };
 });

@@ -1,7 +1,7 @@
 var buildTools = require('@reduct/build-tools');
 var spies = require('sinon-chai');
 var sinon = require('sinon');
-var logger = require('./../../Dist/Logger.js');
+var logLevels = require('./../../Dist/Logger.js').logLevels;
 var chai = buildTools.chai;
 var expect = chai.expect;
 
@@ -13,7 +13,7 @@ describe('The "Logger" .warn() API', function suite () {
     beforeEach(function before (done) {
         logger = global.reduct.logger;
 
-        logger.setLogLevel(2);
+        logger.setLogLevel(logLevels.ALL);
 
         sinon.spy(console, 'warn');
 

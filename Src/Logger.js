@@ -12,10 +12,16 @@ function factory (global, factoryOpts) {
         return !isNaN(num);
     }
 
+    const logLevels = {
+        ALL: 2,
+        WARNINGS: 1,
+        SILENT: 0
+    };
+
     class Logger {
         constructor() {
             this.version = factoryOpts.packageVersion;
-            this.logLevel = 2;
+            this.logLevel = logLevels.ALL;
         }
 
         /**
@@ -43,7 +49,7 @@ function factory (global, factoryOpts) {
          *
          */
         log(message, appendix = '') {
-            if (this.logLevel < 2) {
+            if (this.logLevel < logLevels.ALL) {
                 return this;
             }
 
@@ -63,7 +69,7 @@ function factory (global, factoryOpts) {
          *
          */
         info(message, appendix = '') {
-            if (this.logLevel < 2) {
+            if (this.logLevel < logLevels.ALL) {
                 return this;
             }
 
@@ -83,7 +89,7 @@ function factory (global, factoryOpts) {
          *
          */
         warn(message, appendix = '') {
-            if (this.logLevel < 1) {
+            if (this.logLevel < logLevels.WARNINGS) {
                 return this;
             }
 
@@ -101,7 +107,7 @@ function factory (global, factoryOpts) {
          *
          */
         error(message, appendix = '') {
-            if (this.logLevel < 0) {
+            if (this.logLevel < logLevels.SILENT) {
                 return this;
             }
 
@@ -133,5 +139,8 @@ function factory (global, factoryOpts) {
         global.reduct.logger = logger;
     }
 
-    return global.reduct.logger;
+    return {
+        logger: global.reduct.logger,
+        logLevels
+    };
 }

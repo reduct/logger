@@ -16,14 +16,12 @@ describe('The "Logger"', function suite () {
         logger.setLogLevel(logLevels.ALL);
 
         sinon.spy(console, 'log');
-        sinon.spy(console, 'info');
 
         done();
     });
 
     afterEach(function after (done) {
         console.log.restore();
-        console.info.restore();
 
         done();
     });

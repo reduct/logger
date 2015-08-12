@@ -19,13 +19,45 @@ function factory (global, factoryOpts) {
     };
 
     class Logger {
-        constructor() {
+        constructor(namespace = '@reduct/logger') {
             this.version = factoryOpts.packageVersion;
             this.logLevel = logLevels.ALL;
+            this.namespace = namespace;
+
+            this.instances = [];
         }
 
         /**
-         * Adjusts the noise of the logger.
+         * Returns customized version of the logger API.
+         *
+         * @param namespace {String} The namespace of the new logger instance.
+         */
+        getLogger(namespace = this.namespace) {
+            let logger = new Logger(namespace);
+
+            this.instances.push(logger);
+
+            return {
+                log: (message, appendix) => {
+                    logger.log(message, appendix);
+                },
+
+                info: (message, appendix) => {
+                    logger.info(message, appendix);
+                },
+
+                warn: (message, appendix) => {
+                    logger.warn(message, appendix);
+                },
+
+                error: (message, appendix) => {
+                    logger.error(message, appendix);
+                }
+            };
+        }
+
+        /**
+         * Adjusts the noise of the centralized instance of the logger.
          * 0 => No messages are displayed
          * 1 => Only severe messages are displayed
          * 2 => Every message is displayed
@@ -35,7 +67,13 @@ function factory (global, factoryOpts) {
          *
          */
         setLogLevel(int) {
-            this.logLevel = _isNumeric(int) ? int : 2;
+            const logLevel = _isNumeric(int) ? int : 2;
+
+            this.logLevel = logLevel;
+
+            this.instances.forEach((logger) => {
+                logger.logLevel = logLevel;
+            });
 
             return this;
         }
@@ -54,7 +92,7 @@ function factory (global, factoryOpts) {
             }
 
             try {
-                console.log('@reduct/logger: ' + message, appendix);
+                console.log(`${this.namespace}: ` + message, appendix);
             } catch (e) {}
 
             return this;
@@ -74,7 +112,7 @@ function factory (global, factoryOpts) {
             }
 
             try {
-                console.info('@reduct/logger Info: ' + message, appendix);
+                console.info(`${this.namespace} Info: ` + message, appendix);
             } catch (e) {}
 
             return this;
@@ -94,7 +132,7 @@ function factory (global, factoryOpts) {
             }
 
             try {
-                console.warn('@reduct/logger Warning: ' + message, appendix);
+                console.warn(`${this.namespace} Warning: ` + message, appendix);
             } catch (e) {}
         }
 
@@ -117,7 +155,7 @@ function factory (global, factoryOpts) {
             } catch (e) {}
 
             if (!factoryOpts.isTestingEnv) {
-                throw new Error('@reduct/logger Error: Details are posted above.');
+                throw new Error(`${this.namespace} Error: Details are posted above.`);
             }
         }
     }

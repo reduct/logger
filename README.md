@@ -10,7 +10,7 @@ With npm, use the familiar syntax e.g.:
 npm install @reduct/logger --save
 ```
 
-once the component package is installed, just require it in your application file.
+once the logger package is installed, just require it in your application file.
 ```js
 const logger = require('@reduct/logger');
 ```

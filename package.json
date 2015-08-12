@@ -41,7 +41,9 @@
   },
   "homepage": "https://github.com/reduct/logger#readme",
   "devDependencies": {
-    "@reduct/build-tools": "^1.4.5"
+    "@reduct/build-tools": "^1.4.5",
+    "sinon": "^1.15.4",
+    "sinon-chai": "^2.8.0"
   },
   "reduct": {
     "sourceFolder": "Src/",

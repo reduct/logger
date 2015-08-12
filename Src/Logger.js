@@ -63,7 +63,7 @@ function factory (global, factoryOpts) {
          *
          */
         info(message, appendix = '') {
-            if (this.logLevel <= 2) {
+            if (this.logLevel < 2) {
                 return this;
             }
 
@@ -83,7 +83,7 @@ function factory (global, factoryOpts) {
          *
          */
         warn(message, appendix = '') {
-            if (this.logLevel <= 1) {
+            if (this.logLevel < 1) {
                 return this;
             }
 
@@ -101,7 +101,7 @@ function factory (global, factoryOpts) {
          *
          */
         error(message, appendix = '') {
-            if (this.logLevel <= 0) {
+            if (this.logLevel < 0) {
                 return this;
             }
 
@@ -110,7 +110,9 @@ function factory (global, factoryOpts) {
                 console.error(message, appendix);
             } catch (e) {}
 
-            throw new Error('@reduct/logger Error: Details are posted above.');
+            if (!factoryOpts.isTestingEnv) {
+                throw new Error('@reduct/logger Error: Details are posted above.');
+            }
         }
     }
 

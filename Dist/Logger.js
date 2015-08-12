@@ -134,7 +134,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function info(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 2) {
+                if (this.logLevel < 2) {
                     return this;
                 }
 
@@ -158,7 +158,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function warn(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 1) {
+                if (this.logLevel < 1) {
                     return this;
                 }
 
@@ -180,7 +180,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function error(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 0) {
+                if (this.logLevel < 0) {
                     return this;
                 }
 
@@ -189,7 +189,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     console.error(message, appendix);
                 } catch (e) {}
 
-                throw new Error('@reduct/logger Error: Details are posted above.');
+                if (!factoryOpts.isTestingEnv) {
+                    throw new Error('@reduct/logger Error: Details are posted above.');
+                }
             }
         }]);
 

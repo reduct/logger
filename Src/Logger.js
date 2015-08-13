@@ -12,14 +12,52 @@ function factory (global, factoryOpts) {
         return !isNaN(num);
     }
 
+    const logLevels = {
+        ALL: 2,
+        WARNINGS: 1,
+        SILENT: 0
+    };
+
     class Logger {
-        constructor() {
+        constructor(namespace = '@reduct/logger') {
             this.version = factoryOpts.packageVersion;
-            this.logLevel = 2;
+            this.logLevel = logLevels.ALL;
+            this.namespace = namespace;
+
+            this.instances = [];
         }
 
         /**
-         * Adjusts the noise of the logger.
+         * Returns customized version of the logger API.
+         *
+         * @param namespace {String} The namespace of the new logger instance.
+         */
+        getLogger(namespace = this.namespace) {
+            let logger = new Logger(namespace);
+
+            this.instances.push(logger);
+
+            return {
+                log: (message, appendix) => {
+                    logger.log(message, appendix);
+                },
+
+                info: (message, appendix) => {
+                    logger.info(message, appendix);
+                },
+
+                warn: (message, appendix) => {
+                    logger.warn(message, appendix);
+                },
+
+                error: (message, appendix) => {
+                    logger.error(message, appendix);
+                }
+            };
+        }
+
+        /**
+         * Adjusts the noise of the centralized instance of the logger.
          * 0 => No messages are displayed
          * 1 => Only severe messages are displayed
          * 2 => Every message is displayed
@@ -29,7 +67,13 @@ function factory (global, factoryOpts) {
          *
          */
         setLogLevel(int) {
-            this.logLevel = _isNumeric(int) ? int : 2;
+            const logLevel = _isNumeric(int) ? int : 2;
+
+            this.logLevel = logLevel;
+
+            this.instances.forEach((logger) => {
+                logger.logLevel = logLevel;
+            });
 
             return this;
         }
@@ -43,12 +87,12 @@ function factory (global, factoryOpts) {
          *
          */
         log(message, appendix = '') {
-            if (this.logLevel < 2) {
+            if (this.logLevel < logLevels.ALL) {
                 return this;
             }
 
             try {
-                console.log('@reduct/logger: ' + message, appendix);
+                console.log(`${this.namespace}: ` + message, appendix);
             } catch (e) {}
 
             return this;
@@ -63,12 +107,12 @@ function factory (global, factoryOpts) {
          *
          */
         info(message, appendix = '') {
-            if (this.logLevel <= 2) {
+            if (this.logLevel < logLevels.ALL) {
                 return this;
             }
 
             try {
-                console.info('@reduct/logger Info: ' + message, appendix);
+                console.info(`${this.namespace} Info: ` + message, appendix);
             } catch (e) {}
 
             return this;
@@ -83,12 +127,12 @@ function factory (global, factoryOpts) {
          *
          */
         warn(message, appendix = '') {
-            if (this.logLevel <= 1) {
+            if (this.logLevel < logLevels.WARNINGS) {
                 return this;
             }
 
             try {
-                console.warn('@reduct/logger Warning: ' + message, appendix);
+                console.warn(`${this.namespace} Warning: ` + message, appendix);
             } catch (e) {}
         }
 
@@ -101,7 +145,7 @@ function factory (global, factoryOpts) {
          *
          */
         error(message, appendix = '') {
-            if (this.logLevel <= 0) {
+            if (this.logLevel < logLevels.SILENT) {
                 return this;
             }
 
@@ -110,7 +154,9 @@ function factory (global, factoryOpts) {
                 console.error(message, appendix);
             } catch (e) {}
 
-            throw new Error('@reduct/logger Error: Details are posted above.');
+            if (!factoryOpts.isTestingEnv) {
+                throw new Error(`${this.namespace} Error: Details are posted above.`);
+            }
         }
     }
 
@@ -131,5 +177,8 @@ function factory (global, factoryOpts) {
         global.reduct.logger = logger;
     }
 
-    return global.reduct.logger;
+    return {
+        logger: global.reduct.logger,
+        logLevels
+    };
 }

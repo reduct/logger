@@ -65,12 +65,23 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         return !isNaN(num);
     }
 
+    var logLevels = {
+        ALL: 2,
+        WARNINGS: 1,
+        SILENT: 0
+    };
+
     var Logger = (function () {
         function Logger() {
+            var namespace = arguments.length <= 0 || arguments[0] === undefined ? '@reduct/logger' : arguments[0];
+
             _classCallCheck(this, Logger);
 
             this.version = factoryOpts.packageVersion;
-            this.logLevel = 2;
+            this.logLevel = logLevels.ALL;
+            this.namespace = namespace;
+
+            this.instances = [];
         }
 
         //
@@ -79,20 +90,59 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         //
 
         /**
-         * Adjusts the noise of the logger.
-         * 0 => No messages are displayed
-         * 1 => Only severe messages are displayed
-         * 2 => Every message is displayed
+         * Returns customized version of the logger API.
          *
-         * @param int {Number} The new log level.
-         * @returns {Logger}
-         *
+         * @param namespace {String} The namespace of the new logger instance.
          */
 
         _createClass(Logger, [{
+            key: "getLogger",
+            value: function getLogger() {
+                var namespace = arguments.length <= 0 || arguments[0] === undefined ? this.namespace : arguments[0];
+
+                var logger = new Logger(namespace);
+
+                this.instances.push(logger);
+
+                return {
+                    log: function log(message, appendix) {
+                        logger.log(message, appendix);
+                    },
+
+                    info: function info(message, appendix) {
+                        logger.info(message, appendix);
+                    },
+
+                    warn: function warn(message, appendix) {
+                        logger.warn(message, appendix);
+                    },
+
+                    error: function error(message, appendix) {
+                        logger.error(message, appendix);
+                    }
+                };
+            }
+
+            /**
+             * Adjusts the noise of the centralized instance of the logger.
+             * 0 => No messages are displayed
+             * 1 => Only severe messages are displayed
+             * 2 => Every message is displayed
+             *
+             * @param int {Number} The new log level.
+             * @returns {Logger}
+             *
+             */
+        }, {
             key: "setLogLevel",
             value: function setLogLevel(int) {
-                this.logLevel = _isNumeric(int) ? int : 2;
+                var logLevel = _isNumeric(int) ? int : 2;
+
+                this.logLevel = logLevel;
+
+                this.instances.forEach(function (logger) {
+                    logger.logLevel = logLevel;
+                });
 
                 return this;
             }
@@ -110,12 +160,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function log(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel < 2) {
+                if (this.logLevel < logLevels.ALL) {
                     return this;
                 }
 
                 try {
-                    console.log('@reduct/logger: ' + message, appendix);
+                    console.log(this.namespace + ": " + message, appendix);
                 } catch (e) {}
 
                 return this;
@@ -134,12 +184,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function info(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 2) {
+                if (this.logLevel < logLevels.ALL) {
                     return this;
                 }
 
                 try {
-                    console.info('@reduct/logger Info: ' + message, appendix);
+                    console.info(this.namespace + " Info: " + message, appendix);
                 } catch (e) {}
 
                 return this;
@@ -158,12 +208,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function warn(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 1) {
+                if (this.logLevel < logLevels.WARNINGS) {
                     return this;
                 }
 
                 try {
-                    console.warn('@reduct/logger Warning: ' + message, appendix);
+                    console.warn(this.namespace + " Warning: " + message, appendix);
                 } catch (e) {}
             }
 
@@ -180,7 +230,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
             value: function error(message) {
                 var appendix = arguments.length <= 1 || arguments[1] === undefined ? '' : arguments[1];
 
-                if (this.logLevel <= 0) {
+                if (this.logLevel < logLevels.SILENT) {
                     return this;
                 }
 
@@ -189,7 +239,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     console.error(message, appendix);
                 } catch (e) {}
 
-                throw new Error('@reduct/logger Error: Details are posted above.');
+                if (!factoryOpts.isTestingEnv) {
+                    throw new Error(this.namespace + " Error: Details are posted above.");
+                }
             }
         }]);
 
@@ -209,5 +261,8 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         global.reduct.logger = logger;
     }
 
-    return global.reduct.logger;
+    return {
+        logger: global.reduct.logger,
+        logLevels: logLevels
+    };
 });

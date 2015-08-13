@@ -21,20 +21,32 @@ const logger = window.reduct.logger;
 ```
 
 
+## LogLevels
+You will find a `logLevels` object in the export of this package.
+This object holds all valid logLevels which can be used in conjunction with the [logger.setLogLevel() method](#loggersetloglevel).
+
+| LogLevel                  | Description                          |
+| ------------------------- | ------------------------------------ |
+| `logLevels.SILENT`        | No messages are logged out.          |
+| `logLevels.WARN`          | Only severe messages are logged out. |
+| `logLevels.ALL` (Default) | All messages are logged out.         |
+
+
 ## API
+#### logger.getLogger();
+Type: `Function`
+Argument `namespace`: `String`
+
+This method will return a namespaced version of the global logger instance.
+Useful to diverse between logs of different modules. The returned namespaced methods are still bound to the global
+logLevel, so bear in mind that if someone calls `logger.setLogLevel(logLevels.SILENT);` no logs will be returned in your namespaced logger as well.
+
 #### logger.setLogLevel();
 Type: `Function`
 Argument `int`: `Number`
 
-Will adjust the noise level which the logger creates. For example if you don't want to display warnings in production.
-Set the logLevel to `1`.
-
-| LogLevel    | Description                          |
-| ----------- | ------------------------------------ |
-| 0           | No messages are logged out.          |
-| 1           | Only severe messages are logged out. |
-| 2 (Default) | All messages are logged out.         |
-
+This method controls the amount of logs the logger will output.
+Please pass in a value of the exported `logLevels` object for future compatibility.
 
 #### logger.log();
 Type: `Function`

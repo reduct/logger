@@ -11,7 +11,7 @@ describe('The "Logger"', function suite () {
     var logger;
 
     beforeEach(function before (done) {
-        logger = global.reduct.logger;
+        logger = global.reductLogger;
 
         logger.setLogLevel(logLevels.ALL);
 
@@ -33,7 +33,7 @@ describe('The "Logger"', function suite () {
     });
 
     it('should exist as a singleton in the global scope.', function test (done) {
-        expect(logger).to.equal(global.reduct.logger);
+        expect(logger).to.equal(global.reductLogger);
 
         done();
     });

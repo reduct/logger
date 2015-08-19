@@ -12,7 +12,7 @@ describe('The "Logger" .getLogger() API', function suite () {
     var logger;
 
     beforeEach(function before (done) {
-        globalLogger = global.reduct.logger;
+        globalLogger = global.reductLogger;
         logger = globalLogger.getLogger('MyLogger');
 
         globalLogger.setLogLevel(logLevels.ALL);

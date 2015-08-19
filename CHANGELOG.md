@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+**Implemented enhancements:**
+- Moved to a clean ES6 module structure for the source file.
+
 ## 1.0.1
 **Fixed issues:**
 - Fixed an issue where the global `process` object is not defined.

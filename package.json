@@ -1,6 +1,6 @@
 {
   "name": "@reduct/logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "General logger utility for the browser and console.",
   "main": "Dist/Logger.js",
   "scripts": {

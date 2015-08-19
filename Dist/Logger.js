@@ -1,7 +1,7 @@
 /**
  *
  * @name @reduct/logger
- * @version 1.0.0
+ * @version 1.0.1
  * @license MIT
  *
  * @author Tyll Weiß <inkdpixels@gmail.com>
@@ -18,11 +18,11 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (factory) {
     var opts = {
-        isTestingEnv: process && process.title && !! ~process.title.indexOf('reduct'),
+        isTestingEnv: false,
         packageVersion: {
             major: 1,
             minor: 0,
-            patch: 0
+            patch: 1
         }
     };
     var world = this;
@@ -40,6 +40,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     if (!world.reduct) {
         world.reduct = {};
     }
+
+    // Execute the isTestingEnv check.
+    opts.isTestingEnv = world.process && world.process.title && !! ~world.process.title.indexOf('reduct');
 
     // Export the factory with the global and options to all module formats.
     if (typeof exports === "object" && typeof module !== "undefined") {
@@ -234,13 +237,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
                     return this;
                 }
 
-                try {
-                    // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
-                    console.error(message, appendix);
-                } catch (e) {}
+                if (appendix !== '') {
+                    try {
+                        // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
+                        console.error(message, appendix);
+                    } catch (e) {}
 
-                if (!factoryOpts.isTestingEnv) {
-                    throw new Error(this.namespace + " Error: Details are posted above.");
+                    if (!factoryOpts.isTestingEnv) {
+                        throw new Error(this.namespace + " Error: Details are posted above.");
+                    }
+                } else {
+                    if (!factoryOpts.isTestingEnv) {
+                        throw new Error(this.namespace + " Error: " + message);
+                    }
                 }
             }
         }]);

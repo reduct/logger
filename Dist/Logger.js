@@ -18,7 +18,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 (function (factory) {
     var opts = {
-        isTestingEnv: process && process.title && !! ~process.title.indexOf('reduct'),
+        isTestingEnv: false,
         packageVersion: {
             major: 1,
             minor: 0,
@@ -40,6 +40,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     if (!world.reduct) {
         world.reduct = {};
     }
+
+    // Execute the isTestingEnv check.
+    opts.isTestingEnv = world.process && world.process.title && !! ~world.process.title.indexOf('reduct');
 
     // Export the factory with the global and options to all module formats.
     if (typeof exports === "object" && typeof module !== "undefined") {

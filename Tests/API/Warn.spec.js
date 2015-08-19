@@ -11,7 +11,7 @@ describe('The "Logger" .warn() API', function suite () {
     var logger;
 
     beforeEach(function before (done) {
-        logger = global.reduct.logger;
+        logger = global.reductLogger;
 
         logger.setLogLevel(logLevels.ALL);
 

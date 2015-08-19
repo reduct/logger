@@ -1,7 +1,7 @@
 /**
  *
  * @name @reduct/logger
- * @version 1.1.0
+ * @version 1.0.2
  * @license MIT
  *
  * @author Tyll Weiß <inkdpixels@gmail.com>
@@ -16,8 +16,8 @@
         isTestingEnv: false,
         packageVersion: {
             major: 1,
-            minor: 1,
-            patch: 0
+            minor: 0,
+            patch: 2
         }
     };
     var world = this;
@@ -68,13 +68,21 @@ var logLevels = {
 };
 
 var Logger = (function () {
+    /**
+     * Sets up internal properties for the logger.
+     *
+     * @param namespace {String} The optional namespace for the logger.
+     * @param logLevel {Number} The optional initial logLevel for the logger.
+     */
+
     function Logger() {
         var namespace = arguments.length <= 0 || arguments[0] === undefined ? '@reduct/logger' : arguments[0];
+        var logLevel = arguments.length <= 1 || arguments[1] === undefined ? logLevels.ALL : arguments[1];
 
         _classCallCheck(this, Logger);
 
         this.version = reductOpts.packageVersion;
-        this.logLevel = logLevels.ALL;
+        this.logLevel = logLevel;
         this.namespace = namespace;
 
         this.instances = [];
@@ -96,7 +104,7 @@ var Logger = (function () {
         value: function getLogger() {
             var namespace = arguments.length <= 0 || arguments[0] === undefined ? this.namespace : arguments[0];
 
-            var logger = new Logger(namespace);
+            var logger = new Logger(namespace, this.logLevel);
 
             this.instances.push(logger);
 

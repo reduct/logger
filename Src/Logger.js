@@ -20,9 +20,15 @@ const logLevels = {
 };
 
 class Logger {
-    constructor(namespace = '@reduct/logger') {
+    /**
+     * Sets up internal properties for the logger.
+     *
+     * @param namespace {String} The optional namespace for the logger.
+     * @param logLevel {Number} The optional initial logLevel for the logger.
+     */
+    constructor(namespace = '@reduct/logger', logLevel = logLevels.ALL) {
         this.version = reductOpts.packageVersion;
-        this.logLevel = logLevels.ALL;
+        this.logLevel = logLevel;
         this.namespace = namespace;
 
         this.instances = [];
@@ -34,7 +40,7 @@ class Logger {
      * @param namespace {String} The namespace of the new logger instance.
      */
     getLogger(namespace = this.namespace) {
-        let logger = new Logger(namespace);
+        let logger = new Logger(namespace, this.logLevel);
 
         this.instances.push(logger);
 

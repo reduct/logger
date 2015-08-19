@@ -149,13 +149,19 @@ function factory (global, factoryOpts) {
                 return this;
             }
 
-            try {
-                // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
-                console.error(message, appendix);
-            } catch (e) {}
+            if (appendix !== '') {
+                try {
+                    // We still need the console.error call since the Error object can't print out references to HTML Elements/Objects etc.
+                    console.error(message, appendix);
+                } catch (e) {}
 
-            if (!factoryOpts.isTestingEnv) {
-                throw new Error(`${this.namespace} Error: Details are posted above.`);
+                if (!factoryOpts.isTestingEnv) {
+                    throw new Error(`${this.namespace} Error: Details are posted above.`);
+                }
+            } else {
+                if (!factoryOpts.isTestingEnv) {
+                    throw new Error(`${this.namespace} Error: ${message}`);
+                }
             }
         }
     }

@@ -26,15 +26,15 @@ describe('The "Logger" .error() API', function suite () {
         done();
     });
 
-    it('should call the global console.error method when warning.', function test (done) {
+    it('should not call the global console.error method when no appendifx was specified.', function test (done) {
         logger.error('Something...');
 
-        expect(console.error).to.be.called;
+        expect(console.error).to.not.be.called;
 
         done();
     });
 
-    it('should append a appendix value to the console.error output.', function test (done) {
+    it('should call the global console.error method and append a appendix value to output.', function test (done) {
         logger.error('Something...', {});
 
         expect(console.error).to.be.calledWith('Something...', {});

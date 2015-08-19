@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3
+**Implemented enhancements:**
+- All logger instances created by the getLogger method will inherit the current logLevel.
+
 ## 1.0.2
 **Implemented enhancements:**
 - Moved to a clean ES6 module structure for the source file.

@@ -1,7 +1,7 @@
 /**
  *
  * @name @reduct/logger
- * @version 1.0.3
+ * @version 1.1.0
  * @license MIT
  *
  * @author Tyll Weiß <inkdpixels@gmail.com>
@@ -16,8 +16,8 @@
         isTestingEnv: false,
         packageVersion: {
             major: 1,
-            minor: 0,
-            patch: 3
+            minor: 1,
+            patch: 0
         }
     };
     var world = this;

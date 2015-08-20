@@ -8,11 +8,9 @@ var expect = chai.expect;
 chai.use(spies);
 
 describe('The "Logger" .error() API', function suite () {
-    var logger;
+    var logger = global.reductLogger;
 
     beforeEach(function before (done) {
-        logger = global.reductLogger;
-
         logger.setLogLevel(logLevels.ALL);
 
         sinon.spy(console, 'error');
@@ -26,8 +24,10 @@ describe('The "Logger" .error() API', function suite () {
         done();
     });
 
-    it('should not call the global console.error method when no appendifx was specified.', function test (done) {
-        logger.error('Something...');
+    it('should not call the global console.error method but throw an error when no appendifx was specified.', function test (done) {
+        expect(function logErrorWithoutAppendix () {
+            logger.error('Something...');
+        }).to.throw('@reduct/logger Error: Something...');
 
         expect(console.error).to.not.be.called;
 
@@ -35,7 +35,9 @@ describe('The "Logger" .error() API', function suite () {
     });
 
     it('should call the global console.error method and append a appendix value to output.', function test (done) {
-        logger.error('Something...', {});
+        expect(function logErrorWithAppendix () {
+            logger.error('Something...', {});
+        }).to.throw('@reduct/logger Error: Details are posted above.');
 
         expect(console.error).to.be.calledWith('Something...', {});
 
@@ -48,6 +50,12 @@ describe('The "Logger" .error() API', function suite () {
         logger.error('Something...');
 
         expect(console.error).to.not.be.called;
+
+        done();
+    });
+
+    afterEach(function after (done) {
+        logger.setLogLevel(logLevels.ALL);
 
         done();
     });

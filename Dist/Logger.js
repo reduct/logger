@@ -1,7 +1,7 @@
 /**
  *
  * @name @reduct/logger
- * @version 1.0.2
+ * @version 1.1.0
  * @license MIT
  *
  * @author Tyll Weiß <inkdpixels@gmail.com>
@@ -16,8 +16,8 @@
         isTestingEnv: false,
         packageVersion: {
             major: 1,
-            minor: 0,
-            patch: 2
+            minor: 1,
+            patch: 0
         }
     };
     var world = this;
@@ -244,13 +244,9 @@ var Logger = (function () {
                     console.error(message, appendix);
                 } catch (e) {}
 
-                if (!reductOpts.isTestingEnv) {
-                    throw new Error(this.namespace + ' Error: Details are posted above.');
-                }
+                throw new Error(this.namespace + ' Error: Details are posted above.');
             } else {
-                if (!reductOpts.isTestingEnv) {
-                    throw new Error(this.namespace + ' Error: ' + message);
-                }
+                throw new Error(this.namespace + ' Error: ' + message);
             }
         }
     }]);

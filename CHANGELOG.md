@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0
+**Implemented enhancements:**
+- Errors are now thrown while in the testing environment when the `.error()` method was called.
+
 ## 1.0.3
 **Implemented enhancements:**
 - All logger instances created by the getLogger method will inherit the current logLevel.

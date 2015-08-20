@@ -162,13 +162,9 @@ class Logger {
                 console.error(message, appendix);
             } catch (e) {}
 
-            if (!reductOpts.isTestingEnv) {
-                throw new Error(`${this.namespace} Error: Details are posted above.`);
-            }
+            throw new Error(`${this.namespace} Error: Details are posted above.`);
         } else {
-            if (!reductOpts.isTestingEnv) {
-                throw new Error(`${this.namespace} Error: ${message}`);
-            }
+            throw new Error(`${this.namespace} Error: ${message}`);
         }
     }
 }

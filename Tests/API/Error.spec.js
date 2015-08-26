@@ -8,7 +8,7 @@ var expect = chai.expect;
 chai.use(spies);
 
 describe('The "Logger" .error() API', function suite () {
-    var logger = global.reductLogger;
+    var logger = global.reduct.logger;
 
     beforeEach(function before (done) {
         logger.setLogLevel(logLevels.ALL);

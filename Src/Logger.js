@@ -170,10 +170,19 @@ class Logger {
 }
 
 //
+// Check for the existence of the global reduct object,
+// this is duplicate code, but we can't access it otherwise
+// since the browserify initialization hooks in later and only in module-system free environments.
+//
+if (!global.reduct) {
+    global.reduct = {};
+}
+
+//
 // Check for the existence of an logger instance in the global namespace,
 // and if none was found create a singleton.
 //
-if (!(global.reductLogger instanceof Logger)) {
+if (!(global.reduct.logger instanceof Logger)) {
     let logger = new Logger();
 
     //
@@ -183,10 +192,10 @@ if (!(global.reductLogger instanceof Logger)) {
         logger.setLogLevel(0);
     }
 
-    global.reductLogger  = logger;
+    global.reduct.logger  = logger;
 }
 
 export default {
-    logger: global.reductLogger,
+    logger: global.reduct.logger,
     logLevels
 };

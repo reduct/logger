@@ -11,7 +11,7 @@ describe('The "Logger" .log() API', function suite () {
     var logger;
 
     beforeEach(function before (done) {
-        logger = global.reductLogger;
+        logger = global.reduct.logger;
 
         logger.setLogLevel(logLevels.ALL);
 

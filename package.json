@@ -49,6 +49,6 @@
     "sourceFolder": "Src/",
     "distributionFolder": "Dist/",
     "entryFile": "Logger.js",
-    "globalPackageName": "logger"
+    "globalPackageName": "reduct.loggerClass"
   }
 }

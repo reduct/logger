@@ -17,7 +17,7 @@ const logger = require('@reduct/logger');
 
 This package also supports AMD/RequireJS. Aren't using AMD or CommonJS? Just grab a [release](https://github.com/reduct/logger/releases), include the `Dist/Logger.min.js` and access the logger via the following global:
 ```js
-const logger = window.reductLogger;
+const logger = window.reduct.logger;
 ```
 
 

@@ -194,7 +194,9 @@ if (!(global.reduct.logger instanceof Logger)) {
 	global.reduct.logger = logger;
 }
 
-export default {
-	logger: global.reduct.logger,
+const logger = global.reduct.logger;
+
+export {
+	logger,
 	logLevels
 };

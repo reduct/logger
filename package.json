@@ -4,7 +4,7 @@
   "main": "dist/logger.js",
   "scripts": {
     "postinstall": "npm run build",
-    "build": "browserify src/logger.js -o dist/logger.js --standalone reduct.logger -t [ babelify --presets [ es2015 ] ]",
+    "build": "browserify src/logger.js -o dist/logger.js --standalone reduct.loggerPackage -t [ babelify --presets [ es2015 ] ]",
     "lint": "xo src/**/*.js",
     "mocha": "export TEST=true && find ./src -name '*.spec.js' | xargs istanbul cover -x *.spec.js _mocha -- -R spec --compilers js:babel-register",
     "test": "npm run lint && npm run mocha && npm run build",

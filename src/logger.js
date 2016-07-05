@@ -200,3 +200,5 @@ export {
 	logger,
 	logLevels
 };
+
+export default logger;

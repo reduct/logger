@@ -1,7 +1,7 @@
 {
   "name": "@reduct/logger",
   "description": "General logger utility for the browser and console.",
-  "main": "dist/logger.js",
+  "main": "index.js",
   "scripts": {
     "prepublish": "npm run build",
     "build": "browserify src/logger.js -o dist/logger.js --standalone reduct.loggerPackage -t [ babelify --presets [ es2015 ] ]",
